@@ -23,17 +23,17 @@ public class FlybaseClientBuilder {
         return new FlybaseClientBuilder();
     }
     
-    FlybaseClientBuilder apiKey(String api){
+    public FlybaseClientBuilder apiKey(String api){
         this.apiKey = api;
         return this;
     }
     
-    FlybaseClientBuilder slug(String slug){
+    public FlybaseClientBuilder slug(String slug){
         this.slug = slug;
         return this;
     }
     
-    Flybase build(){
+    public Flybase build(){
         return new FlybaseClient(this.apiKey, this.slug);
     }
 }
