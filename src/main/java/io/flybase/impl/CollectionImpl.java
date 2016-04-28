@@ -19,6 +19,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.JSONObject;
 import io.flybase.query.impl.SimpleQueryBuilder;
+import io.flybase.query.impl.validators.AtLeastOne;
+import io.flybase.query.impl.validators.NoOne;
+import io.flybase.query.impl.validators.OnlyOne;
+import io.flybase.query.types.ParameterType;
 
 /**
  *
@@ -26,8 +30,8 @@ import io.flybase.query.impl.SimpleQueryBuilder;
  */
 public class CollectionImpl implements Collection {
 
-    private static final Logger LOGGER = Logger.getLogger(CollectionImpl.class.getName());
-    private static final String ID_FIELD = "_id";
+    private static final Logger LOGGER = Logger.getLogger(CollectionImpl.class.
+            getName());
 
     private final String collectionUrl;
     private final FlybaseClient.FlybaseRequestParameters requestParameters;
@@ -92,11 +96,18 @@ public class CollectionImpl implements Collection {
             LOGGER.log(Level.WARNING, "Error deleting document", e);
             throw new DeletingDocumentException(e);
         }
-        
     }
 
     @Override
     public QueryBuilder query() {
-        return new SimpleQueryBuilder(this.collectionUrl);
+        return new SimpleQueryBuilder(Unirest.get(this.collectionUrl),
+                new NoOne(ParameterType.BODY));
+    }
+
+    @Override
+    public QueryBuilder batchUpdate() {
+        return new SimpleQueryBuilder(Unirest.put(this.collectionUrl),
+                new AtLeastOne(ParameterType.QUERY),
+                new OnlyOne(ParameterType.BODY));
     }
 }

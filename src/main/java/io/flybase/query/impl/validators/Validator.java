@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package io.flybase.query;
+package io.flybase.query.impl.validators;
 
-import org.json.JSONObject;
+import io.flybase.query.types.ContextParameter;
+import java.util.List;
 
 /**
  *
  * @author adantas
  */
-public interface Operator {
+public interface Validator {
     
-    JSONObject build();
+    public boolean validate(List<ContextParameter> context);
 }

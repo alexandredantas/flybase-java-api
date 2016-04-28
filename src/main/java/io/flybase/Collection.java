@@ -37,6 +37,12 @@ public interface Collection {
      * @throws WritingDocumentException if save fails
      */
     Document save(Document doc);
+    
+    /**
+     * Performs an update on all records that matches the filter
+     * @return 
+     */
+    QueryBuilder batchUpdate();
 
     /**
      * Delete a document using its unique identifier, represented by the field

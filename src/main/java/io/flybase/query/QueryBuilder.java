@@ -5,6 +5,8 @@
  */
 package io.flybase.query;
 
+import io.flybase.query.types.Operator;
+
 /**
  *
  * @author adantas
