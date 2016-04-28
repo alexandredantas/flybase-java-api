@@ -14,15 +14,15 @@ import io.flybase.Document;
 import io.flybase.exceptions.DeletingDocumentException;
 import io.flybase.exceptions.WritingDocumentException;
 import io.flybase.query.QueryBuilder;
-import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.json.JSONObject;
 import io.flybase.query.impl.SimpleQueryBuilder;
 import io.flybase.query.impl.validators.AtLeastOne;
 import io.flybase.query.impl.validators.NoOne;
 import io.flybase.query.impl.validators.OnlyOne;
 import io.flybase.query.types.ParameterType;
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.json.JSONObject;
 
 /**
  *
@@ -100,13 +100,15 @@ public class CollectionImpl implements Collection {
 
     @Override
     public QueryBuilder query() {
-        return new SimpleQueryBuilder(Unirest.get(this.collectionUrl),
+        return new SimpleQueryBuilder(Unirest.get(this.collectionUrl)
+                .header(FlybaseClient.API_KEY_HEADER_NAME, this.requestParameters.getApiKey()),
                 new NoOne(ParameterType.BODY));
     }
 
     @Override
     public QueryBuilder batchUpdate() {
-        return new SimpleQueryBuilder(Unirest.put(this.collectionUrl),
+        return new SimpleQueryBuilder(Unirest.put(this.collectionUrl)
+                .header(FlybaseClient.API_KEY_HEADER_NAME, this.requestParameters.getApiKey()),
                 new AtLeastOne(ParameterType.QUERY),
                 new OnlyOne(ParameterType.BODY));
     }

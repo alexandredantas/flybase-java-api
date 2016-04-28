@@ -25,4 +25,11 @@ public interface Flybase {
      * @throws CollectionsRetrievingException If retrieving collections fail
      */
     List<Collection> collections();
+    
+    /**
+     * Returns the collection with collectionName
+     * @param collectionName Collection name
+     * @return 
+     */
+    Collection collection(String collectionName);
 }

@@ -6,9 +6,9 @@
 package io.flybase.query.impl.contexts;
 
 import io.flybase.Document;
+import io.flybase.query.QueryContext;
 import io.flybase.query.types.ContextParameter;
 import io.flybase.query.types.ParameterType;
-import io.flybase.query.QueryContext;
 import java.util.Collections;
 import java.util.List;
 

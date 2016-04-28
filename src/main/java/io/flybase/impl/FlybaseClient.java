@@ -74,6 +74,12 @@ public class FlybaseClient implements Flybase {
         }
     }
 
+    @Override
+    public Collection collection(String collectionName) {
+        return new CollectionImpl(this.getCollectionUrl(collectionName),
+                this.requestParameters);
+    }
+
     private String getCollectionsUrl() {
         return String.format(COLLECTIONS_URL, this.requestParameters.getSlug());
     }

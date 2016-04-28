@@ -7,6 +7,7 @@ package io.flybase.query.types;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -15,12 +16,13 @@ import java.util.stream.Collectors;
  * @author adantas
  */
 public class Filter {
+
     private final String name;
     private final Collection<Map<String, Object>> operators;
 
-    public Filter(String name, Operator... operators) {
+    public Filter(String name, List<Operator> operators) {
         this.name = name;
-        this.operators = Arrays.stream(operators)
+        this.operators = operators.parallelStream()
                 .map(operator -> operator.build())
                 .collect(Collectors.toList());
     }

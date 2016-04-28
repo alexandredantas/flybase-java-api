@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package io.flybase.query.impl;
+package io.flybase.query;
 
 import io.flybase.query.types.Sort;
 import io.flybase.query.types.SortType;

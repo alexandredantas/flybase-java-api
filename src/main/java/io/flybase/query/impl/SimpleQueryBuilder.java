@@ -10,17 +10,15 @@ import io.flybase.exceptions.QueryException;
 import io.flybase.query.PreparedQuery;
 import io.flybase.query.QueryBuilder;
 import io.flybase.query.QueryContext;
-import java.util.ArrayList;
-import java.util.List;
 import io.flybase.query.impl.validators.Validator;
 import io.flybase.query.types.ContextParameter;
 import io.flybase.query.types.Filter;
-import io.flybase.query.types.Operator;
 import io.flybase.query.types.OperatorsNames;
 import io.flybase.query.types.ParameterType;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.json.JSONObject;
@@ -51,8 +49,10 @@ public class SimpleQueryBuilder implements QueryBuilder {
     public PreparedQuery prepare(QueryContext context) {
         List<ContextParameter> params = context.create();
 
-        params.add(new ContextParameter("q", this.appendFilters(),
-                ParameterType.QUERY));
+        if (!this.filters.isEmpty()) {
+            params.add(new ContextParameter("q", this.appendFilters(),
+                    ParameterType.QUERY));
+        }
 
         if (this.validators.parallelStream().filter(validator
                 -> validator.validate(params)).count() != this.validators.size()) {
@@ -102,16 +102,4 @@ public class SimpleQueryBuilder implements QueryBuilder {
             throw new RuntimeException("Invalid filter", e);
         }
     }
-
-//    public static void main(String... args) {
-//        SimpleQueryBuilder q = new SimpleQueryBuilder(null);
-//
-//        q.filter(new Filter("b",
-//                new Operator(OperatorsNames.GT.getName(), "a"),
-//                new Operator(OperatorsNames.GTE.getName(), "b")))
-//                .filter(new Filter("$and",
-//                        new Operator("field", Collections.singletonMap(OperatorsNames.GTE.getName(), "testing")),
-//                        new Operator("a", Collections.singletonMap(OperatorsNames.GTE.getName(), "testing"))));
-//        System.out.println(((SimpleQueryBuilder) q).appendFilters());
-//    }
 }

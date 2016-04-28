@@ -5,7 +5,6 @@
  */
 package io.flybase.query.impl.validators;
 
-import io.flybase.query.QueryContext;
 import io.flybase.query.types.ContextParameter;
 import io.flybase.query.types.ParameterType;
 import java.util.List;

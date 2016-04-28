@@ -7,9 +7,9 @@ package io.flybase.query.impl.contexts;
 
 import com.owlike.genson.Genson;
 import com.owlike.genson.GensonBuilder;
+import io.flybase.query.QueryContext;
 import io.flybase.query.types.ContextParameter;
 import io.flybase.query.types.ParameterType;
-import io.flybase.query.QueryContext;
 import io.flybase.query.types.Sort;
 import java.util.ArrayList;
 import java.util.Arrays;
