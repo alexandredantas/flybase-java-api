@@ -15,9 +15,11 @@ import java.util.List;
 import io.flybase.query.impl.validators.Validator;
 import io.flybase.query.types.ContextParameter;
 import io.flybase.query.types.Filter;
+import io.flybase.query.types.Operator;
 import io.flybase.query.types.OperatorsNames;
 import io.flybase.query.types.ParameterType;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -108,7 +110,8 @@ public class SimpleQueryBuilder implements QueryBuilder {
 //                new Operator(OperatorsNames.GT.getName(), "a"),
 //                new Operator(OperatorsNames.GTE.getName(), "b")))
 //                .filter(new Filter("$and",
-//                        new Operator("field", Collections.singletonMap(OperatorsNames.GTE.getName(), "testing"))));
+//                        new Operator("field", Collections.singletonMap(OperatorsNames.GTE.getName(), "testing")),
+//                        new Operator("a", Collections.singletonMap(OperatorsNames.GTE.getName(), "testing"))));
 //        System.out.println(((SimpleQueryBuilder) q).appendFilters());
 //    }
 }
