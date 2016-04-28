@@ -5,7 +5,7 @@
  */
 package io.flybase.query;
 
-import io.flybase.query.types.Operator;
+import io.flybase.query.types.Filter;
 
 /**
  *
@@ -13,7 +13,7 @@ import io.flybase.query.types.Operator;
  */
 public interface QueryBuilder {
     
-    QueryBuilder filter(Operator operator);
+    QueryBuilder filter(Filter filter);
     
     PreparedQuery prepare(QueryContext context);
 }

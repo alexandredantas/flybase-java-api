@@ -7,8 +7,6 @@ package io.flybase.query.impl;
 
 import io.flybase.query.types.Sort;
 import io.flybase.query.types.SortType;
-import java.util.Collections;
-import org.json.JSONObject;
 
 /**
  *

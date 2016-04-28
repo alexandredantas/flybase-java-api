@@ -5,8 +5,6 @@
  */
 package io.flybase.query.types;
 
-import io.flybase.query.types.SortType;
-
 /**
  *
  * @author adantas

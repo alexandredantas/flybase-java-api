@@ -9,27 +9,18 @@ package io.flybase.query.types;
  *
  * @author adantas
  */
-public class ContextParameter {
+public enum OperatorsNames {
+    
+    AND("$and"), EQUAL("$eq"), NOT("$not"), GT("$gt"), GTE("$gte"), LT("$lt"), 
+    LTE("$lte"), REGEX("$regex"), IN("$in");
     
     private final String name;
-    private final String content;
-    private final ParameterType type;
 
-    public ContextParameter(String name, String content, ParameterType type) {
+    private OperatorsNames(String name) {
         this.name = name;
-        this.content = content;
-        this.type = type;
     }
 
     public String getName() {
         return name;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public ParameterType getType() {
-        return type;
     }
 }

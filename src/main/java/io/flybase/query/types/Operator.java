@@ -5,25 +5,32 @@
  */
 package io.flybase.query.types;
 
+import java.util.Collections;
+import java.util.Map;
+
 /**
  *
  * @author adantas
  */
 public class Operator {
-    
-    private final String fieldName;
-    private final String value;
 
-    public Operator(String fieldName, String value) {
-        this.fieldName = fieldName;
+    private final String name;
+    private final Object value;
+
+    public Operator(String name, Object value) {
+        this.name = name;
         this.value = value;
     }
 
     public String getFieldName() {
-        return fieldName;
+        return name;
     }
 
-    public String getValue() {
+    public Object getValue() {
         return value;
+    }
+
+    public Map<String, Object> build() {
+        return Collections.singletonMap(this.name, this.value);
     }
 }
