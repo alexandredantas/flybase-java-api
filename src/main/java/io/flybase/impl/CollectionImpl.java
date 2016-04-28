@@ -51,7 +51,7 @@ public class CollectionImpl implements Collection {
                     .getObject();
 
             if (response.length() > 0) {
-                return Optional.of((Document) new DocumentImpl(response));
+                return Optional.of(Document.raw(response));
             } else {
                 return Optional.empty();
             }
@@ -74,7 +74,7 @@ public class CollectionImpl implements Collection {
                         String.format("Error writing document. Status: %d", response.getStatus()));
 
             } else {
-                return new DocumentImpl(response.getBody().getObject());
+                return Document.raw(response.getBody().getObject());
             }
         } catch (UnirestException e) {
             throw new WritingDocumentException(e);

@@ -5,6 +5,8 @@
  */
 package io.flybase.query.impl;
 
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.HttpRequest;
 import com.mashape.unirest.request.HttpRequestWithBody;
@@ -15,6 +17,7 @@ import io.flybase.query.types.ContextParameter;
 import io.flybase.query.types.ParameterType;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.json.JSONArray;
 
 /**
  *
@@ -46,7 +49,18 @@ public class RestPreparedQuery implements PreparedQuery {
         }
 
         try {
-            return new SimpleQueryResult(this.request.asJson().getBody().getObject());
+            HttpResponse<JsonNode> response = this.request.asJson();
+
+            if (response.getStatus() != 200) {
+                throw new QueryException("Error retrieving data! Status: "
+                        + response.getStatus());
+            }
+
+            if (response.getBody().isArray()) {
+                return new SimpleQueryResult(response.getBody().getArray());
+            } else {
+                return new SimpleQueryResult(response.getBody().getObject());
+            }
         } catch (UnirestException ex) {
             throw new QueryException("Error executing query", ex);
         }

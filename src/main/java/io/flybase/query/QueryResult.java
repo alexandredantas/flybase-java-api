@@ -14,4 +14,8 @@ import com.owlike.genson.GenericType;
 public interface QueryResult {
 
     <T> T as(GenericType<T> convertTo);
+    
+    <T> T as(Class<T> convertTo);
+    
+    String asString();
 }

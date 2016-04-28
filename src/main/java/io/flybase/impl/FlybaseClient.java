@@ -24,7 +24,7 @@ public class FlybaseClient implements Flybase {
 
     private static final String BASE_URL = "https://api.flybase.io/apps/%s";
     private static final String COLLECTIONS_URL = BASE_URL + "/collections";
-    private static final String COLLECTION_URL = COLLECTIONS_URL + "/collections/%s";
+    private static final String COLLECTION_URL = COLLECTIONS_URL + "/%s";
 
     static final String API_KEY_HEADER_NAME = "X-Flybase-API-Key";
 

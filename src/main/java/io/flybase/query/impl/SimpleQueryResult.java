@@ -9,7 +9,6 @@ import com.owlike.genson.GenericType;
 import com.owlike.genson.Genson;
 import com.owlike.genson.GensonBuilder;
 import io.flybase.query.QueryResult;
-import org.json.JSONObject;
 
 /**
  *
@@ -22,14 +21,36 @@ public class SimpleQueryResult implements QueryResult {
             .failOnNullPrimitive(false)
             .create();
 
-    private final JSONObject raw;
+    private final Object raw;
 
-    public SimpleQueryResult(JSONObject raw) {
+    public SimpleQueryResult(Object raw) {
         this.raw = raw;
     }
 
     @Override
     public <T> T as(GenericType<T> convertTo) {
+        if (this.raw == null) {
+            return null;
+        }
+
         return this.genson.deserialize(this.raw.toString(), convertTo);
+    }
+
+    @Override
+    public <T> T as(Class<T> convertTo) {
+        if (this.raw == null) {
+            return null;
+        }
+
+        return this.genson.deserialize(this.raw.toString(), convertTo);
+    }
+
+    @Override
+    public String asString() {
+        if (this.raw == null) {
+            return null;
+        }
+
+        return this.raw.toString();
     }
 }
