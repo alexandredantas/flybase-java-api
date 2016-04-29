@@ -35,6 +35,15 @@ public abstract class Document {
     public abstract <T> T to(GenericType<T> convertTo);
 
     /**
+     * Convert this document to your own POJO class
+     *
+     * @param <T>
+     * @param convertTo The destination class type
+     * @return An object filled with the properties of this document
+     */
+    public abstract <T> T to(Class<T> convertTo);
+
+    /**
      * Convert your POJO to a JSON representation
      *
      * @param source Your POJO instance
@@ -73,6 +82,11 @@ public abstract class Document {
 
         @Override
         public <T> T to(GenericType<T> convertTo) {
+            return this.genson.deserialize(this.raw.toString(), convertTo);
+        }
+
+        @Override
+        public <T> T to(Class<T> convertTo) {
             return this.genson.deserialize(this.raw.toString(), convertTo);
         }
     }
