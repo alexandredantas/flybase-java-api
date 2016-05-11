@@ -5,15 +5,13 @@
  */
 package io.flybase.query;
 
-import io.flybase.query.types.Filter;
-
 /**
  *
  * @author adantas
  */
 public interface QueryBuilder {
     
-    QueryBuilder filter(Filter filter);
+    QueryBuilder filter(io.flybase.query.Filters.Filter filter);
     
     PreparedQuery prepare(QueryContext context);
 }

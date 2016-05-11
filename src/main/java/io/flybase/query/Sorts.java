@@ -5,7 +5,6 @@
  */
 package io.flybase.query;
 
-import io.flybase.query.types.Sort;
 import io.flybase.query.types.SortType;
 
 /**
@@ -20,5 +19,25 @@ public class Sorts {
 
     public Sort desc(String field) {
         return new Sort(field, SortType.DESCENDING);
+    }
+
+    public static class Sort {
+
+        private final String field;
+        private final SortType type;
+
+        private Sort(String field, SortType type) {
+            super();
+            this.field = field;
+            this.type = type;
+        }
+
+        public String getField() {
+            return field;
+        }
+
+        public SortType getType() {
+            return type;
+        }
     }
 }

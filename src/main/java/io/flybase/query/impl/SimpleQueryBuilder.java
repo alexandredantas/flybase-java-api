@@ -7,13 +7,12 @@ package io.flybase.query.impl;
 
 import com.mashape.unirest.request.HttpRequest;
 import io.flybase.exceptions.QueryException;
+import io.flybase.query.Operators;
 import io.flybase.query.PreparedQuery;
 import io.flybase.query.QueryBuilder;
 import io.flybase.query.QueryContext;
 import io.flybase.query.impl.validators.Validator;
 import io.flybase.query.types.ContextParameter;
-import io.flybase.query.types.Filter;
-import io.flybase.query.types.OperatorsNames;
 import io.flybase.query.types.ParameterType;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +29,7 @@ import org.json.JSONObject;
 public class SimpleQueryBuilder implements QueryBuilder {
 
     private final HttpRequest request;
-    private final List<Filter> filters;
+    private final List<io.flybase.query.Filters.Filter> filters;
     private final List<Validator> validators;
 
     public SimpleQueryBuilder(HttpRequest request, Validator... validators) {
@@ -40,7 +39,7 @@ public class SimpleQueryBuilder implements QueryBuilder {
     }
 
     @Override
-    public QueryBuilder filter(Filter filter) {
+    public QueryBuilder filter(io.flybase.query.Filters.Filter filter) {
         this.filters.add(filter);
         return this;
     }
@@ -63,26 +62,25 @@ public class SimpleQueryBuilder implements QueryBuilder {
     }
 
     private String appendFilters() {
-        List<Filter> ands = this.filters.parallelStream()
-                .filter(op -> op.getName().equals(OperatorsNames.AND.getName()))
+        List<io.flybase.query.Filters.Filter> ands = this.filters.parallelStream()
+                .filter(op -> op.getName().equals(Operators.AND.getName()))
                 .collect(Collectors.toList());
 
         this.filters.removeAll(ands);
 
-        Map<String, List<Filter>> groupedFilter = this.filters.parallelStream().collect(
-                Collectors.groupingByConcurrent(Filter::getName));
+        Map<String, List<io.flybase.query.Filters.Filter>> groupedFilter = this.filters.parallelStream().collect(Collectors.groupingByConcurrent(io.flybase.query.Filters.Filter::getName));
 
         try {
             JSONObject jsonFilter = new JSONObject(
                     groupedFilter.entrySet().parallelStream()
                     .collect(Collectors.toMap(Map.Entry::getKey,
-                            op -> op.getValue().stream()
-                            .flatMap(filter -> filter.getOperators().stream())
-                            .flatMap(map -> map.entrySet().stream())
-                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)))
+                                    op -> op.getValue().stream()
+                                    .flatMap(filter -> filter.getOperators().stream())
+                                    .flatMap(map -> map.entrySet().stream())
+                                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)))
                     ));
 
-            ands.forEach((Filter filter) -> {
+            ands.forEach((io.flybase.query.Filters.Filter filter) -> {
                 jsonFilter.append(filter.getName(), filter.getOperators()
                         .parallelStream()
                         .flatMap(map -> map.entrySet().parallelStream())

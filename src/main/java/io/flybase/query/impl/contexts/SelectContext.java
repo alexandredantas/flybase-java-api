@@ -8,9 +8,9 @@ package io.flybase.query.impl.contexts;
 import com.owlike.genson.Genson;
 import com.owlike.genson.GensonBuilder;
 import io.flybase.query.QueryContext;
+import io.flybase.query.Sorts;
 import io.flybase.query.types.ContextParameter;
 import io.flybase.query.types.ParameterType;
-import io.flybase.query.types.Sort;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -29,7 +29,7 @@ public class SelectContext implements QueryContext {
     private List<String> includedFields;
     private List<String> excludedFields;
     private boolean single;
-    private final List<Sort> sorting;
+    private final List<Sorts.Sort> sorting;
     private long skip;
     private long limit;
     private final Genson genson;
@@ -71,7 +71,7 @@ public class SelectContext implements QueryContext {
         return this;
     }
 
-    public SelectContext sort(Sort sort) {
+    public SelectContext sort(Sorts.Sort sort) {
         this.sorting.add(sort);
         return this;
     }
