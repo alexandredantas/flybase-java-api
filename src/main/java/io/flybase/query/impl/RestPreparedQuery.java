@@ -13,6 +13,8 @@ import com.mashape.unirest.request.HttpRequestWithBody;
 import io.flybase.exceptions.QueryException;
 import io.flybase.query.PreparedQuery;
 import io.flybase.query.QueryResult;
+import io.flybase.query.impl.results.SimpleArrayResult;
+import io.flybase.query.impl.results.SimpleSingleResult;
 import io.flybase.query.types.ContextParameter;
 import io.flybase.query.types.ParameterType;
 import java.util.List;
@@ -56,9 +58,9 @@ public class RestPreparedQuery implements PreparedQuery {
             }
 
             if (response.getBody().isArray()) {
-                return new SimpleQueryResult(response.getBody().getArray());
+                return new SimpleArrayResult(response.getBody().getArray());
             } else {
-                return new SimpleQueryResult(response.getBody().getObject());
+                return new SimpleSingleResult(response.getBody().getObject());
             }
         } catch (UnirestException ex) {
             throw new QueryException("Error executing query", ex);
