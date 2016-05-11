@@ -5,7 +5,8 @@
  */
 package io.flybase.query;
 
-import com.owlike.genson.GenericType;
+import io.flybase.Document;
+import java.util.List;
 
 /**
  *
@@ -13,9 +14,7 @@ import com.owlike.genson.GenericType;
  */
 public interface QueryResult {
 
-    <T> T as(GenericType<T> convertTo);
+    Document single();
     
-    <T> T as(Class<T> convertTo);
-    
-    String asString();
+    List<Document> results();
 }

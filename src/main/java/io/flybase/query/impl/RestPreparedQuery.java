@@ -17,7 +17,6 @@ import io.flybase.query.types.ContextParameter;
 import io.flybase.query.types.ParameterType;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.json.JSONArray;
 
 /**
  *

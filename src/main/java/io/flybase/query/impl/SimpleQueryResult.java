@@ -5,10 +5,16 @@
  */
 package io.flybase.query.impl;
 
-import com.owlike.genson.GenericType;
 import com.owlike.genson.Genson;
 import com.owlike.genson.GensonBuilder;
+import io.flybase.Document;
 import io.flybase.query.QueryResult;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  *
@@ -28,29 +34,40 @@ public class SimpleQueryResult implements QueryResult {
     }
 
     @Override
-    public <T> T as(GenericType<T> convertTo) {
-        if (this.raw == null) {
-            return null;
+    public Document single() {
+        if (this.raw instanceof JSONArray) {
+            Iterator it = ((JSONArray) this.raw).iterator();
+            while (it.hasNext()) {
+                return Document.raw(
+                        genson.deserialize(genson.serialize(it.next()), JSONObject.class));
+            }
         }
 
-        return this.genson.deserialize(this.raw.toString(), convertTo);
+        if (this.raw instanceof JSONObject) {
+            return Document.raw((JSONObject) this.raw);
+        }
+
+        return null;
     }
 
     @Override
-    public <T> T as(Class<T> convertTo) {
-        if (this.raw == null) {
-            return null;
+    public List<Document> results() {
+        if (this.raw instanceof JSONObject) {
+            return Collections.singletonList(Document.raw((JSONObject) this.raw));
         }
 
-        return this.genson.deserialize(this.raw.toString(), convertTo);
-    }
+        if (this.raw instanceof JSONArray) {
+            List<Document> results = new ArrayList<>();
+            Iterator it = ((JSONArray) this.raw).iterator();
+            while (it.hasNext()) {
+                results.add(Document.raw(
+                        genson.deserialize(genson.serialize(it.next()),
+                                JSONObject.class)));
+            }
 
-    @Override
-    public String asString() {
-        if (this.raw == null) {
-            return null;
+            return results;
         }
 
-        return this.raw.toString();
+        return null;
     }
 }

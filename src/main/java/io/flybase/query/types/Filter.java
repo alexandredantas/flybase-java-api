@@ -5,7 +5,6 @@
  */
 package io.flybase.query.types;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
