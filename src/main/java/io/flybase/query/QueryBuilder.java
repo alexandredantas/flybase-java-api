@@ -11,7 +11,7 @@ package io.flybase.query;
  */
 public interface QueryBuilder {
     
-    QueryBuilder filter(io.flybase.query.Filters.Filter filter);
+    QueryBuilder filter(Filters.Filter filter);
     
     PreparedQuery prepare(QueryContext context);
 }

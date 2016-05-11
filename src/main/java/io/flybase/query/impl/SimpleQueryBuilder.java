@@ -7,6 +7,7 @@ package io.flybase.query.impl;
 
 import com.mashape.unirest.request.HttpRequest;
 import io.flybase.exceptions.QueryException;
+import io.flybase.query.Filters;
 import io.flybase.query.Operators;
 import io.flybase.query.PreparedQuery;
 import io.flybase.query.QueryBuilder;
@@ -29,7 +30,7 @@ import org.json.JSONObject;
 public class SimpleQueryBuilder implements QueryBuilder {
 
     private final HttpRequest request;
-    private final List<io.flybase.query.Filters.Filter> filters;
+    private final List<Filters.Filter> filters;
     private final List<Validator> validators;
 
     public SimpleQueryBuilder(HttpRequest request, Validator... validators) {
@@ -39,7 +40,7 @@ public class SimpleQueryBuilder implements QueryBuilder {
     }
 
     @Override
-    public QueryBuilder filter(io.flybase.query.Filters.Filter filter) {
+    public QueryBuilder filter(Filters.Filter filter) {
         this.filters.add(filter);
         return this;
     }
@@ -62,13 +63,14 @@ public class SimpleQueryBuilder implements QueryBuilder {
     }
 
     private String appendFilters() {
-        List<io.flybase.query.Filters.Filter> ands = this.filters.parallelStream()
+        List<Filters.Filter> ands = this.filters.parallelStream()
                 .filter(op -> op.getName().equals(Operators.AND.getName()))
                 .collect(Collectors.toList());
 
         this.filters.removeAll(ands);
 
-        Map<String, List<io.flybase.query.Filters.Filter>> groupedFilter = this.filters.parallelStream().collect(Collectors.groupingByConcurrent(io.flybase.query.Filters.Filter::getName));
+        Map<String, List<Filters.Filter>> groupedFilter = this.filters.parallelStream().collect(
+                Collectors.groupingByConcurrent(Filters.Filter::getName));
 
         try {
             JSONObject jsonFilter = new JSONObject(
@@ -80,7 +82,7 @@ public class SimpleQueryBuilder implements QueryBuilder {
                                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)))
                     ));
 
-            ands.forEach((io.flybase.query.Filters.Filter filter) -> {
+            ands.forEach((Filters.Filter filter) -> {
                 jsonFilter.append(filter.getName(), filter.getOperators()
                         .parallelStream()
                         .flatMap(map -> map.entrySet().parallelStream())
